@@ -16,15 +16,19 @@ const recursivePromise = <T>(
       arrayOfPromises.splice(firstPromise.index, 1);
       return { arrayOfPromises, accumulator };
     })
-    .then((array) => {
-      console.log(array);
-      if (array.arrayOfPromises.length === 0) {
+    .then(() => {
+      if (arrayOfPromises.length === 0) {
         return accumulator;
       }
-      return recursivePromise(array.arrayOfPromises);
+      return recursivePromise(arrayOfPromises, accumulator);
+    })
+    .catch((error) => {
+      return accumulator;
     });
 };
 
 recursivePromise(PROMISEARRAY).then((value) => {
   console.log(value);
 });
+
+//type guard
