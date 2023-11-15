@@ -25,7 +25,7 @@ const promise3 = () => {
 const promise4 = () => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve("Forth Promise resolved");
+      reject("Fourth Promise resolved");
     }, 4000);
   });
 };
