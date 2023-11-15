@@ -27,7 +27,30 @@ const recursivePromise = <T>(
     });
 };
 
-recursivePromise(PROMISEARRAY).then((value) => {
+const recursivePromiseAsyncAwait = async <T>(
+  arrayOfPromises: (() => Promise<T>)[],
+  accumulator: T[] = []
+): Promise<T[]> => {
+  try {
+    const race = await Promise.race(
+      arrayOfPromises.map(async (element, index) => {
+        const firstPromise = await element();
+        return { firstPromise, index };
+      })
+    );
+    accumulator.push(race.firstPromise);
+    arrayOfPromises.splice(race.index, 1);
+    if (arrayOfPromises.length === 0) {
+      return accumulator;
+    }
+    console.log(arrayOfPromises.length);
+    return recursivePromiseAsyncAwait(arrayOfPromises, accumulator);
+  } catch (error) {
+    return accumulator;
+  }
+};
+
+recursivePromiseAsyncAwait(PROMISEARRAY).then((value) => {
   console.log(value);
 });
 
