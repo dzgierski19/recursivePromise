@@ -4,16 +4,15 @@ import { PROMISEARRAY } from "./Global";
 
 // promises
 
-const recursivePromiseB = <T>(
+const recursivePromiseB = <T, G>(
   arrayOfPromises: (() => Promise<T>)[],
   accumulator: T[] = []
 ): Promise<T[]> => {
   arrayOfPromises.reverse();
-  const lastItem = arrayOfPromises[arrayOfPromises.length - 1]();
+  const lastItem = arrayOfPromises.pop()!();
   return lastItem
-    .then((lastItem) => {
-      accumulator.push(lastItem);
-      arrayOfPromises.pop();
+    .then((result) => {
+      accumulator.push(result);
       if (arrayOfPromises.length === 0) {
         return accumulator;
       }

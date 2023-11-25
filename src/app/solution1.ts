@@ -57,13 +57,7 @@ const recursivePromiseAsyncAwait = async <T>(
 };
 
 console.time("A");
-recursivePromiseAsyncAwait(PROMISEARRAY).then((value) => {
+recursivePromise(PROMISEARRAY).then((value) => {
   console.log(value);
   console.timeEnd("A");
 });
-
-//type guard
-
-//1. napisac prosty serwer, ktory ma post
-// express
-// zalozyc wirtualna karte
