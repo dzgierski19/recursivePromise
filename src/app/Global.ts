@@ -17,7 +17,7 @@ const promise2 = () => {
 const promise3 = () => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      reject("Third Promise resolved");
+      reject("Third Promise rejected");
     }, 2000);
   });
 };
