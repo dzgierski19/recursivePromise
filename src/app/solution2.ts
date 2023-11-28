@@ -8,15 +8,14 @@ const recursivePromiseB = <T, G>(
   arrayOfPromises: (() => Promise<T>)[],
   accumulator: T[] = []
 ): Promise<T[]> => {
-  arrayOfPromises.reverse();
-  const lastItem = arrayOfPromises.pop()!();
+  const lastItem = arrayOfPromises.shift()!();
   return lastItem
     .then((result) => {
       accumulator.push(result);
       if (arrayOfPromises.length === 0) {
         return accumulator;
       }
-      return recursivePromiseB(arrayOfPromises.reverse(), accumulator);
+      return recursivePromiseB(arrayOfPromises, accumulator);
     })
     .catch((error) => {
       return accumulator;
@@ -30,14 +29,13 @@ const recursivePromiseAsyncAwaitB = async <T>(
   accumulator: T[] = []
 ): Promise<T[]> => {
   try {
-    arrayOfPromises.reverse();
-    const lastItem = await arrayOfPromises[arrayOfPromises.length - 1]();
+    const lastItem = await arrayOfPromises[0]();
     accumulator.push(lastItem);
-    arrayOfPromises.pop();
+    arrayOfPromises.shift();
     if (arrayOfPromises.length === 0) {
       return accumulator;
     }
-    return recursivePromiseAsyncAwaitB(arrayOfPromises.reverse(), accumulator);
+    return recursivePromiseAsyncAwaitB(arrayOfPromises, accumulator);
   } catch (error) {
     return accumulator;
   }
